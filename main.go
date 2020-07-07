@@ -39,7 +39,7 @@ func run() error {
 		return fmt.Errorf("could not draw title: %v", err)
 	}
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	s, err := newScene(r)
 	if err != nil {
@@ -65,7 +65,7 @@ func drawTitle(r *sdl.Renderer, text string) error {
 
 	f, err := ttf.OpenFont("res/fonts/flappy.ttf", 20)
 	if err != nil {
-		return fmt.Errorf("could not found font: %v", err)
+		return fmt.Errorf("could not load font: %v", err)
 	}
 	defer f.Close()
 
