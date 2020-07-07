@@ -10,7 +10,6 @@ import (
 
 const (
 	gravity   = 0.1
-	halfY     = 384
 	jumpSpeed = 5
 )
 
@@ -35,7 +34,7 @@ func newBird(r *sdl.Renderer) (*bird, error) {
 		textures = append(textures, texture)
 	}
 
-	return &bird{textures: textures, x: 10, y: halfY, w: 50, h: 43}, nil
+	return &bird{textures: textures, x: 10, y: 300, w: 75, h: 54}, nil
 }
 
 func (b *bird) update() {
@@ -53,7 +52,7 @@ func (b *bird) paint(r *sdl.Renderer) error {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 
-	rect := &sdl.Rect{X: 10, Y: 768 - b.y - b.h/2, W: b.w, H: b.h}
+	rect := &sdl.Rect{X: 10, Y: 600 - b.y - b.h/2, W: b.w, H: b.h}
 
 	i := b.time / 10 % len(b.textures)
 	if err := r.Copy(b.textures[i], nil, rect); err != nil {
@@ -66,7 +65,7 @@ func (b *bird) restart() {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
-	b.y = halfY
+	b.y = 300
 	b.speed = 0
 	b.dead = false
 }
@@ -90,7 +89,7 @@ func (b *bird) jump() {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
-	b.speed = jumpSpeed
+	b.speed = -jumpSpeed
 }
 
 func (b *bird) touch(p *pipe)  {
@@ -109,7 +108,7 @@ func (b *bird) touch(p *pipe)  {
 		return
 	}
 
-	if p.inverted && 300 - p.h > b.y + b.h/2 {
+	if p.inverted && 600 - p.h > b.y + b.h/2 {
 		return
 	}
 
